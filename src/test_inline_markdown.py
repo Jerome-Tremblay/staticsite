@@ -1,5 +1,5 @@
 import unittest
-from inline_markdown import split_nodes_delimiter
+from inline_markdown import *
 from textnode import TextNode, TextType
 
 class TestSplitNodesDelimiter(unittest.TestCase):
@@ -34,6 +34,19 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         node = TextNode("This is **bold", TextType.TEXT)
         with self.assertRaises(Exception):
             split_nodes_delimiter([node], "**", TextType.BOLD)
+
+
+    def test_text_to_node(self):
+        node = "This is an _italic_ word, this is a **bold** word and this is an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        result = text_to_textnodes(node)
+        self.assertEqual(result, [
+            TextNode("This is an ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" word, this is a ", TextType.TEXT),
+            TextNode("bold", TextType.BOLD),
+            TextNode(" word and this is an ", TextType.TEXT),
+            TextNode("image", TextType.IMAGE,"https://i.imgur.com/zjjcJKZ.png"),
+        ])
 
 if __name__ == "__main__":
     unittest.main()
