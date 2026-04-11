@@ -1,10 +1,15 @@
 from textnode import *
+import shutil
+import os
+from copystatic import *
 
-# hello world
 
 def main():
-    new_node = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
-    print(new_node)
+    public_dir = "./public"
+    static_dir = "./static"
+    if os.path.exists(public_dir):
+        shutil.rmtree(public_dir)
+    copy_static(static_dir, public_dir)
 
 if __name__ == "__main__":
     main()
